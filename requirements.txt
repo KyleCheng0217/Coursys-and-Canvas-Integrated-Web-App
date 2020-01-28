@@ -1,5 +1,5 @@
 rauth==0.7.3
-requests==2.18.4
+requests==2.20.0
 Django==2.2.2
 python_dateutil==2.8.0
 python-memcached
