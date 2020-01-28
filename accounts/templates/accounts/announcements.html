@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+  
+{% block title %}Announcements{% endblock %}
+{% block stylesheets %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'accounts/announcements/style.css' %}">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"> -->
+{% endblock %}
+
+
+{% block content %}
+
+
+<h1>Canvas Announcements</h1>
+<ul>
+    {% for announcement in announcements %}
+        <li>{{ announcement }}</li>
+    {% endfor %}
+</ul>
+    {% if not announcements %}
+	<br>
+	<p> No announcements! </p>
+    {% endif %}
+
+{% endblock content %}
+
+{% block scripts %}
+  {{ block.super }}
+  <script src="{% static 'accounts/announcements/util.js' %}"></script> 
+  <script src="{% static 'accounts/announcements/main.js' %}"></script>
+{% endblock %}

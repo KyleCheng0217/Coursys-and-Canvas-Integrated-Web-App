@@ -1,0 +1,42 @@
+<!-- Adapted from https://github.com/CodyHouse/schedule-template -->
+
+{% extends 'base.html' %}
+  
+{% block title %}Courses{% endblock %}
+{% block stylesheets %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'accounts/courses/style.css' %}">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"> -->
+{% endblock %}
+
+
+{% block content %}
+<!-- accordian-->
+<h1>Courses</h1>
+ 
+{% for date_with_assigns in all_assignments %}
+<ul class="accordion js-accordion" data-animation="on" data-multi-items="off">
+  <li class="accordion__item accordion__item--is-open js-accordion__item">
+    <button class="accordion__header" type="button">
+      <span class="accordion__header-title">{{date_with_assigns.0}}</span>
+      <em aria-hidden="true" class="accordion__header-icon"><i></i></em>
+    </button>
+    {% for assignment in date_with_assigns.1 %}
+    <div class="accordion__panel js-accordion__panel">
+      <div class="accordion__panel-content">
+        <div class="text-component margin-bottom-md">
+          <p>{{assignment.0}} <br> {{assignment.1}} <br> Grade: <strong>{{assignment.2}}</strong> Out of: {{assignment.3}} <br> <a href = "{{assignment.4}}"> {{assignment.4}} </a></p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </li>
+{% endfor %}
+
+{% endblock content %}
+
+{% block scripts %}
+  {{ block.super }}
+  <script src="{% static 'accounts/courses/util.js' %}"></script> 
+  <script src="{% static 'accounts/courses/main.js' %}"></script>
+{% endblock %}

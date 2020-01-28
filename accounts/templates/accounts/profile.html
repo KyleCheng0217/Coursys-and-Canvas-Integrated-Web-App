@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block stylesheets %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'accounts/profile/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="cd-demo cd-demo--padding-xl js-cd-demo">
+    <section class="contact">
+        <div class="container max-width-lg">
+            <div class="margin-bottom-lg">
+                <h1 class="text-center">Your profile</h1>
+            </div>
+            <div class="contact__grid">
+                <dl class="contact__list">
+                    <div class="contact__item">
+                        <dt>First name</dt>
+                        <dd>
+                        {{ user.first_name }}
+                        </dd>
+                    </div>
+                    <div class="contact__item">
+                        <dt>Last name</dt>
+                        <dd>
+                        {{ user.last_name }}
+                        </dd>
+                    </div>
+                    <div class="contact__item">
+                        <dt>Student ID</dt>
+                        <dd>
+                        {{ user.student_id }}
+                        </dd>
+                    </div>
+                    <div class="contact__item">
+                        <dt>Email</dt>
+                        <dd><a href="mailto:{{ user.email }}">{{ user.email }}</a></dd>
+                    </div>
+                    <div class="contact__item"><p class="text-md">You may revoke access to Coursys by following <a href="https://coursys.sfu.ca/config/tokens/">this link</a>, and you can delete the Canvas access token <a href="https://canvas.sfu.ca/profile/settings">here</a></p></div>
+                    {% if token %}
+                    <div class="contact__item">
+                        <dt>Your token</dt>
+                        <dd>{{ token }}</dd>
+                    </div>
+                    <div class="contact__item">
+                    <p class="text-md">The API is pretty simple: see all courses at <a href="#0">/api/all-courses/</a> and get their assignment information and the latest grades at <a href="#0">/api/assignments/id</a> where id is the id of the course returned in the first request. Include the token in the HTTP header as 'Authorization: Token &lt;token&gt;'.</p>
+                    </div>
+                    {% else %}
+                    <div class="margin-top-md">
+                        <form action="{% url 'accounts:profile' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="submit" value="Generate token" class="btn btn--primary">
+                            <br><small class='color-contrast-medium'>If you want to use our API</small>
+                        </form>
+                        <!-- <a href="{% url 'accounts:profile' %}?token"><button class="btn btn--primary">Generate token</button></a> -->
+                    </div>
+                    {% endif %}
+                    
+                </dl>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+  {{ block.super }}
+  <script src="{% static 'accounts/profile/util.js' %}"></script> 
+  <script src="{% static 'accounts/profile/main.js' %}"></script>
+{% endblock %}
+    
+    

@@ -1,0 +1,41 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile-app
+    volumes:
+      - static:/static:rw
+    environment:
+      DJANGO_MODE: production
+  db: 
+    image: "postgres:latest"
+    volumes:
+      - db:/var/lib/postgresql/data:rw
+    environment:
+      POSTGRES_USER: project
+      POSTGRES_PASSWORD: secret
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile-web
+    ports:
+      - "8000:80"
+    volumes:
+      - static:/static:ro
+      
+  memcached:
+    image: memcached
+    ports:
+      - "11211:11211"
+    entrypoint:
+      - memcached
+      - -m 64
+    expose:
+      - "11211"
+    depends_on:
+      - app
+      
+volumes:
+  static:
+  db:

@@ -1,0 +1,8 @@
+rauth==0.7.3
+requests==2.18.4
+Django==2.2.2
+python_dateutil==2.8.0
+python-memcached
+uwsgi
+psycopg2-binary
+djangorestframework

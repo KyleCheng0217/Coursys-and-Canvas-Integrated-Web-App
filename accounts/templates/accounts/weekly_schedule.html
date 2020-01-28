@@ -1,0 +1,137 @@
+<!-- Adapted from https://github.com/CodyHouse/schedule-template -->
+
+{% extends 'base.html' %}
+  
+{% block title %}Deadlines schedule{% endblock %}
+{% block stylesheets %}
+  {{ block.super }}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'accounts/weekly_schedule/style.css' %}">
+{% endblock %}
+
+{% block content %}
+  <h1 class="text-xl text-center flex flex-column flex-center margin-top-sm" style="flex-direction: row;">Deadlines schedule&nbsp;&nbsp;&nbsp;<a href="{% url 'accounts:refresh' %}?week_offset={{ week_offset }}" title="Refresh assignments and grades"><i id="refresh" class="fas fa-redo" style="font-size: xx-large;"></i></a></h1>
+  <script>
+  document.getElementById("refresh").addEventListener("click", function() {
+    document.getElementById('refresh').style.animation='icon-spin 1s infinite linear';
+  });
+  </script>
+
+  <div class="cd-schedule cd-schedule--loading margin-top-lg margin-bottom-lg js-cd-schedule">
+    <div class="cd-schedule__timeline">
+      <ul>
+        <li><span>08:00</span></li>
+        <li><span>08:30</span></li>
+        <li><span>09:00</span></li>
+        <li><span>09:30</span></li>
+        <li><span>10:00</span></li>
+        <li><span>10:30</span></li>
+        <li><span>11:00</span></li>
+        <li><span>11:30</span></li>
+        <li><span>12:00</span></li>
+        <li><span>12:30</span></li>
+        <li><span>13:00</span></li>
+        <li><span>13:30</span></li>
+        <li><span>14:00</span></li>
+        <li><span>14:30</span></li>
+        <li><span>15:00</span></li>
+        <li><span>15:30</span></li>
+        <li><span>16:00</span></li>
+        <li><span>16:30</span></li>
+        <li><span>17:00</span></li>
+        <li><span>17:30</span></li>
+        <li><span>18:00</span></li>
+        <li><span>18:30</span></li>
+        <li><span>19:00</span></li>
+        <li><span>19:30</span></li>
+        <li><span>20:00</span></li>
+        <li><span>20:30</span></li>
+        <li><span>21:00</span></li>
+        <li><span>21:30</span></li>
+        <li><span>22:00</span></li>
+        <li><span>22:30</span></li>
+        <li><span>23:00</span></li>
+        <li><span>23:30</span></li>
+      </ul>
+    </div> <!-- .cd-schedule__timeline -->
+  
+    <div class="cd-schedule__events">
+      <ul>
+        {% for day, date, events in eventful_days %}
+        <li class="cd-schedule__group">
+          <div class="cd-schedule__top-info"><span>{{ day }}<br><small class="color-contrast-medium">{{ date }}</small></span></div>
+          
+
+          <ul>
+          {% for event in events %}
+            <li class="cd-schedule__event">
+                <a data-due="{{ event.due }}" data-offset="{{ event.offset }}" data-content="{{ event.slug }}" data-event="event-{{ event.colour }}" href="#0">
+                    <em class="cd-schedule__name">{{ event.name }}</em>
+                </a>
+            </li>
+          {% endfor %}
+          </ul>
+  
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  
+    <div class="cd-schedule-modal">
+      <header class="cd-schedule-modal__header">
+        <div class="cd-schedule-modal__content">
+          <span class="cd-schedule-modal__date"></span>
+          <h3 class="cd-schedule-modal__name"></h3>
+        </div>
+  
+        <div class="cd-schedule-modal__header-bg"></div>
+      </header>
+  
+      <div class="cd-schedule-modal__body">
+        <div class="cd-schedule-modal__event-info"></div>
+        <div class="cd-schedule-modal__body-bg"></div>
+      </div>
+  
+      <a href="#0" class="cd-schedule-modal__close text-replace">Close</a>
+    </div>
+  
+    <div class="cd-schedule__cover-layer"></div>
+  </div> <!-- .cd-schedule -->
+  <nav class="pagination" aria-label="Pagination">
+    <ol class="pagination__list flex flex-wrap flex-gap-xxs justify-center">
+      <li>
+        <a href="{% url 'accounts:weekly_schedule'%}?week_offset={{ week_offset|add:'-1' }}" class="pagination__item" aria-label="Go to previous page">
+          <svg class="icon margin-right-xxxs" aria-hidden="true" viewBox="0 0 16 16"><title>Previous</title><g stroke-width="1" stroke="currentColor"><polyline fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="9.5,3.5 5,8 9.5,12.5 "></polyline></g></svg>
+          <span>Prev</span>
+        </a>
+      </li>
+      
+      {% for offset, number in week_numbers %}
+        <li class="display@sm">
+          <a href="{% url 'accounts:weekly_schedule' %}?week_offset={{offset}}" class="pagination__item {% if forloop.counter0 == 2 %}pagination__item--selected{% endif %}" aria-label="Go to page {{ number }}">{{ number }}</a>
+        </li>
+      {% endfor %}
+  
+      <li class="display@sm" aria-hidden="true">
+        <span class="pagination__item pagination__item--ellipsis">...</span>
+      </li>
+  
+      <li class="display@sm">
+        <a href="{% url 'accounts:weekly_schedule' %}?week_offset=exams" class="pagination__item" aria-label="Skip to exam weeks" title="Skip to exam weeks">Exams</a>
+      </li>
+  
+      <li>
+        <a href="{% url 'accounts:weekly_schedule' %}?week_offset={{ week_offset|add:'1' }}" class="pagination__item" aria-label="Go to next page">
+          <span>Next</span>
+          <svg class="icon margin-left-xxxs" aria-hidden="true" viewBox="0 0 16 16"><title>Next</title><g stroke-width="1" stroke="currentColor"><polyline fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="6.5,3.5 11,8 6.5,12.5 "></polyline></g></svg>
+        </a>
+      </li>
+    </ol>
+  </nav>
+{% endblock content %}
+
+{% block scripts %}
+  {{ block.super }}
+  <script src="{% static 'accounts/weekly_schedule/util.js' %}"></script> <!-- util functions included in the CodyHouse framework -->
+  <script src="{% static 'accounts/weekly_schedule/main.js' %}"></script>
+{% endblock %}

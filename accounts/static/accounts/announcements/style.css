@@ -1,0 +1,102 @@
+/* -------------------------------- 
+
+File#: _1_list
+Title: List
+Descr: Custom list component
+
+-------------------------------- */
+.list,
+.text-component .list {
+  --list-v-space: 1;
+  --list-offset: 1;
+  padding-left: 0;
+  list-style: none;
+}
+.list ul,
+.text-component .list ul,
+.list ol,
+.text-component .list ol {
+  list-style: none;
+  margin: 0;
+  margin-top: calc(var(--list-v-space, 1) * var(--space-xxxs));
+  padding-top: calc(var(--list-v-space, 1) * var(--space-xxxs));
+  padding-left: calc(var(--space-xs) * var(--list-offset, 1));
+}
+.list ul > li:last-child,
+.text-component .list ul > li:last-child,
+.list ol > li:last-child,
+.text-component .list ol > li:last-child {
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+.list li,
+.text-component .list li {
+  padding-bottom: calc(var(--list-v-space, 1) * var(--space-xxxs));
+  margin-bottom: calc(var(--list-v-space, 1) * var(--space-xxxs));
+}
+.list--ul li,
+.list--ol li {
+  padding-left: calc(var(--bullet-size) + var(--bullet-margin-right));
+}
+.list--ul li::before,
+.list--ol li::before {
+  width: var(--bullet-size);
+  height: var(--bullet-size);
+  margin-left: calc(var(--bullet-size) * -1);
+  display: inline-flex;
+  vertical-align: middle;
+  position: relative;
+  left: calc(var(--bullet-margin-right) * -1);
+}
+.list--ul {
+  --bullet-size: 7px;
+  --bullet-margin-right: var(--space-xxs);
+}
+.list--ul li::before {
+  content: '';
+  border-radius: 50%;
+  color: var(--color-primary);
+  background-color: currentColor;
+  border: 2px solid currentColor;
+}
+.list--ul ul li::before {
+  background-color: transparent;
+}
+.list--ol {
+  --bullet-size: 26px;
+  --bullet-margin-right: 6px;
+  counter-reset: list-items;
+}
+.list--ol li {
+  counter-increment: list-items;
+}
+.list--ol ol {
+  counter-reset: list-items;
+}
+.list--ol li::before {
+  content: counter(list-items);
+  font-size: 0.75em;
+  justify-content: center;
+  align-items: center;
+  top: -0.1em;
+  border-radius: 50%;
+  background-color: var(--color-contrast-lower);
+  border: 2px solid var(--color-contrast-lower);
+  color: var(--color-contrast-high);
+  @include fontSmooth;
+}
+.list--ol ol li::before {
+  background-color: transparent;
+}
+.list--border li {
+  border-bottom: 1px solid var(--color-contrast-low);
+}
+.list--border ul,
+.list--border ol {
+  border-top: 1px solid var(--color-contrast-low);
+}
+.list--border ul li:last-child,
+.list--border ol li:last-child {
+  border-bottom-width: 0;
+}
+

@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>document.getElementsByTagName("html")[0].className += " js";</script>
+    <title>{% block title %}Profile{% endblock %}</title>
+    {% block stylesheets %}
+    <link rel="stylesheet" href="{% static 'base_header.css' %}">
+    {% endblock %}
+</head>
+<body>
+    {% block header %}
+        <header class="main-header js-main-header">
+            <div class="container max-width-lg">
+                <div class="main-header__layout">
+                <div class="main-header__logo">
+                    <a href="https://canvas.sfu.ca/" style="display: inline-block;">
+                        <img src="{% static 'canvas-logo.png' %}" title="Go to Canvas" alt="Go to Canvas" width="32" height="32" style="display: inline-block; vertical-align: bottom;">
+                    <!-- <svg width="130" height="32" viewBox="0 0 130 32"><title>Go to homepage</title><circle fill="var(--color-primary)" cx="16" cy="16" r="16"/><rect fill="var(--color-contrast-higher)" x="41" y="11" width="89" height="10"/></svg> -->
+                    </a>
+                    <a href="https://coursys.sfu.ca/" style="display: inline-block; text-decoration: none;">
+                        <h3 style="color: #a6192e; text-decoration: none;" title="Go to Coursys">&nbsp;+&nbsp;CourSys</h3>
+                    </a>
+                </div>
+            
+                <button class="btn btn--subtle main-header__nav-trigger js-main-header__nav-trigger" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-header-nav">
+                    <i class="main-header__nav-trigger-icon" aria-hidden="true"></i>
+                    <span>Menu</span>
+                </button>
+            
+                <nav class="main-header__nav js-main-header__nav" id="main-header-nav" aria-labelledby="main-header-nav-label" role="navigation">
+                    <div id="main-header-nav-label" class="main-header__nav-label">Main menu</div>
+                    <ul class="main-header__nav-list">
+                    <li class="main-header__nav-item"><a href="{% url 'accounts:profile' %}" class="main-header__nav-link" {% if '/profile/' in request.path %}aria-current="page"{% endif %}>Profile</a></li>
+                    <li class="main-header__nav-item"><a href="{% url 'accounts:courses' %}" class="main-header__nav-link" {% if '/courses/' in request.path %}aria-current="page"{% endif %}>Courses</a></li>
+                    <li class="main-header__nav-item"><a href="{% url 'accounts:weekly_schedule' %}" class="main-header__nav-link" {% if '/weekly_schedule/' in request.path %}aria-current="page"{% endif %}>Schedule</a></li>
+                    <li class="main-header__nav-item"><a href="{% url 'accounts:assignments' %}" class="main-header__nav-link" {% if '/assignments/' in request.path %}aria-current="page"{% endif %}>Assignments</a></li>
+                    <li class="main-header__nav-item"><a href="{% url 'accounts:announcements' %}" class="main-header__nav-link" {% if '/announcements/' in request.path %}aria-current="page"{% endif %}>Announcements</a></li>
+                    <li class="main-header__nav-item main-header__nav-divider" aria-hidden="true"></li>
+                    <li class="main-header__nav-item"><a href="{% url 'authentication:logout' %}" class="btn btn--primary">Log out</a></li>
+                    </ul>
+                </nav>
+                </div>
+            </div>
+        </header>
+    {% endblock header %}
+
+    {% block content %}{% endblock %}
+
+    {% block scripts %}
+        <script src="{% static 'base_header.js' %}"></script>
+    {% endblock %}
+</body>
+</html>

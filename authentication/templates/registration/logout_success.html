@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Logout successful{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{% static 'authentication/cd_forms.css' %}">
+{% endblock %}
+
+{% block header %}<p class="text-center margin-top-md">You have successfully logged out</p>{% endblock %}
+
+{% block content %}
+<div class="text-center margin-top-md">
+<a class="btn btn--primary" href="{% url 'authentication:login' %}">Log in</a>
+</div>
+{% endblock %}
+
+{% block scripts %}{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Coursys PIN{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{% static 'authentication/cd_forms.css' %}">
+{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block content %}
+<div class="cd-demo cd-demo-container cd-demo-container--xs cd-demo--padding-xl js-cd-demo">
+<form class="login-form" action="{% url 'authentication:oauth_coursys' %}" method="POST">
+    {% csrf_token %}
+    <div class="text-component text-center margin-bottom-md">
+    <h1>Coursys Access</h1>
+    <p>Follow this <a href="{{ authorize_url }}" target="_blank">link</a> to obtain the Coursys PIN and paste it into the form</p>
+    </div>
+
+    <div class="margin-bottom-sm">
+    <label class="form-label margin-bottom-xxxs" for="pin">PIN</label>
+    <input class="form-control width-100%" type="text" name="pin">
+    {% if error %}
+    <p class="form__msg-error form__msg-error--is-visible">{{ error }}</p>
+    {% endif %}
+    </div>
+    <input class="btn btn--primary btn--md width-100%" type="submit" value="Submit" />
+    <input type="hidden" name="next" value="{{ next }}"/>
+    <div class="text-center margin-top-md">
+        <p class="text-sm">You can always revoke access to your Coursys information <a href="https://coursys.sfu.ca/config/tokens/">here</a></p>
+    </div>
+</form>
+</div>
+<!-- <p>Follow this <a href="{{ authorize_url }}" target="_blank">link</a> to obtain the Coursys PIN and paste it into the form</p>
+<form action="{% url 'authentication:oauth_coursys' %}" method="POST">
+    {% csrf_token %}
+    <input type="text" name="pin"/>
+    <input type="submit" value="Submit" />
+    <input type="hidden" name="next" value="{{ next }}"/>
+</form> -->
+{% endblock %}
+
+{% block scripts %}{% endblock %}

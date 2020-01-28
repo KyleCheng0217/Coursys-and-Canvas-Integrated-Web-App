@@ -1,0 +1,17 @@
+FROM python:3.7
+WORKDIR /code
+ENV PYTHONUNBUFFERED=1
+COPY wait.sh /wait.sh
+RUN chmod +x /wait.sh
+COPY requirements.txt /tmp/
+RUN pip install -r /tmp/requirements.txt
+run pip install --ignore-installed pyOpenSSL --upgrade
+run apt-get update
+run apt-get install memcached
+run service memcached start
+ADD ./ /code
+CMD /wait.sh db 5432 \
+  && python manage.py collectstatic --noinput \
+  && python manage.py makemigrations \
+  && python manage.py migrate \
+  && /usr/local/bin/uwsgi --ini /code/project/uwsgi.ini 

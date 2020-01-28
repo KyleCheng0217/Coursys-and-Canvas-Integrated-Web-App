@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{% static 'authentication/cd_forms.css' %}">
+{% endblock %}
+
+{% block header %}<header><div class="text-component text-center margin-bottom-md margin-top-xl"><h1>Welcome,</h1></div></header>{% endblock %}
+
+{% block content %}
+<div class="cd-demo cd-demo-container cd-demo-container--xs cd-demo--padding-xl js-cd-demo">
+<form class="login-form" action="{% url 'authentication:login' %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input class="btn btn--primary btn--md width-100% margin-bottom-sm" type="submit" value="Login" />
+    <input type="hidden" name="next" value="{{ next }}"/>
+</form>
+<p class="text-center text-sm">Don't have an account? <a href="{% url 'authentication:register' %}">Sign up</a></p>
+</div>
+{% endblock content %}
+
+{% block scripts %}{% endblock %}
